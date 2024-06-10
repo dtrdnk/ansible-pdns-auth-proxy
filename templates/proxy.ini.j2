@@ -1,0 +1,10 @@
+[pdns]
+{% for key, value in powerdns_auth_proxy_api_params.items() %}
+{{ key }} = {{ value }}
+{% endfor %}
+
+{% for user in powerdns_auth_proxy_users %}
+[user:{{ user.name }}]
+key = {{ user.key }}
+allow-suffix-creation = {{ user.allow_suffix_creation }}
+{% endfor %}

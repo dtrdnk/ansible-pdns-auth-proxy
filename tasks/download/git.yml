@@ -1,0 +1,6 @@
+---
+- name: "git checkout {{ powerdns_auth_proxy_git_url }} ({{ powerdns_auth_proxy_version }})"
+  git:
+    dest: "{{ powerdns_auth_proxy_version_path }}"
+    repo: "{{ powerdns_auth_proxy_git_url }}"
+    version: "{{ powerdns_auth_proxy_version }}"

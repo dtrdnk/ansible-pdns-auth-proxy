@@ -1,0 +1,9 @@
+---
+- name: 'reload systemd'
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: "restart {{ powerdns_auth_proxy_name }}.service"
+  ansible.builtin.systemd:
+    name: "{{ powerdns_auth_proxy_name }}.service"
+    state: restarted

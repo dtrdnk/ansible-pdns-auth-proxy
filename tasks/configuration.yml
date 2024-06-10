@@ -1,0 +1,15 @@
+---
+- name: Create config directory for proxy.ini file
+  ansible.builtin.file:
+    group: "{{ powerdns_auth_proxy_group }}"
+    owner: "{{ powerdns_auth_proxy_user }}"
+    path: "{{ powerdns_auth_proxy_version_path }}/config"
+    state: 'directory'
+
+- name: Add PowerDNS proxy.ini config
+  ansible.builtin.template:
+    src: "proxy.ini.j2"
+    dest: "{{ powerdns_auth_proxy_version_path }}/config/proxy.ini"
+    owner: "{{ powerdns_auth_proxy_user }}"
+    group: "{{ powerdns_auth_proxy_group }}"
+    mode: '660'

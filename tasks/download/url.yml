@@ -1,0 +1,17 @@
+---
+- name: 'Download PowerDNS auth proxy'
+  get_url:
+    dest: "{{ powerdns_auth_proxy_work_path }}/{{ powerdns_auth_proxy_release_file }}"
+    group: "{{ powerdns_auth_proxy_group }}"
+    mode: "660"
+    owner: "{{ powerdns_auth_proxy_user }}"
+    url: "{{ powerdns_auth_proxy_release_url }}"
+
+- name: 'Extract  PowerDNS auth proxy archive'
+  unarchive:
+    creates: "{{ powerdns_auth_proxy_version_path }}"
+    dest: "{{ powerdns_auth_proxy_work_path }}"
+    group: "{{ powerdns_auth_proxy_group }}"
+    owner: "{{ powerdns_auth_proxy_user }}"
+    remote_src: true
+    src: "{{ powerdns_auth_proxy_work_path }}/{{ powerdns_auth_proxy_release_file }}"

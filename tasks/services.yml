@@ -1,0 +1,8 @@
+---
+- meta: flush_handlers
+
+- name: "Ensure {{ powerdns_auth_proxy_name }} is {{ powerdns_auth_proxy_service_state }}"
+  ansible.builtin.systemd:
+    name: "{{ powerdns_auth_proxy_name }}"
+    state: "{{ powerdns_auth_proxy_service_state }}"
+    enabled: "{{ powerdns_auth_proxy_service_enabled }}"

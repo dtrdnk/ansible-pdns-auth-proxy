@@ -1,0 +1,24 @@
+---
+- name: Install or update pip in venv
+  become_user: "{{ powerdns_auth_proxy_user }}"
+  ansible.builtin.pip:
+    name: pip
+    version: "{{ powerdns_auth_proxy_venv_pip_version }}"
+    virtualenv: "{{ powerdns_auth_proxy_venv_path }}"
+  environment:
+    SETUPTOOLS_USE_DISTUTILS: stdlib
+
+- name: 'Exec pip requirements in a virtualenv'
+  ansible.builtin.pip:
+    requirements: "{{ powerdns_auth_proxy_version_path }}/requirements.txt"
+    executable: "{{ powerdns_auth_proxy_venv_path }}/bin/pip"
+
+- name: Add systemd service
+  ansible.builtin.template:
+    dest: "{{ powerdns_auth_proxy_service_path }}/{{ powerdns_auth_proxy_name }}.service"
+    group: 'root'
+    owner: 'root'
+    src: "powerdns-auth-proxy.service.j2"
+  notify:
+    - 'reload systemd'
+    - "restart {{ powerdns_auth_proxy_name }}.service"

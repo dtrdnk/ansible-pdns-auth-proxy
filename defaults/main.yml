@@ -1,0 +1,35 @@
+---
+# Installation params for pdns auth proxy
+powerdns_auth_proxy_download_method: 'url' # options: "url", "git"
+powerdns_auth_proxy_version: 'v1.1.1'
+powerdns_auth_proxy_release_file: "{{ powerdns_auth_proxy_version }}.zip"
+powerdns_auth_proxy_release_url: "https://github.com/dtrdnk/powerdns-auth-proxy/archive/{{ powerdns_auth_proxy_release_file }}"
+powerdns_auth_proxy_git_url: https://github.com/dtrdnk/powerdns-auth-proxy.git
+powerdns_auth_proxy_name: 'powerdns-auth-proxy'
+powerdns_auth_proxy_service_state: 'started'
+powerdns_auth_proxy_service_enabled: true
+powerdns_auth_proxy_service_path: '/etc/systemd/system'
+powerdns_auth_proxy_user: 'pdns'  # reuse existing pdns user in OS
+powerdns_auth_proxy_group: 'pdns' # reuse existing pdns group in OS
+powerdns_auth_proxy_work_path: "/opt/{{ powerdns_auth_proxy_name }}"
+powerdns_auth_proxy_version_path: "{{ powerdns_auth_proxy_work_path }}/{{ powerdns_auth_proxy_name }}-{{ powerdns_auth_proxy_version | regex_replace('^v(.*)$', '\\1') }}"
+powerdns_auth_proxy_venv_path: "{{ powerdns_auth_proxy_work_path }}/venv"
+
+# Workaround for oldest pip version which generated in created venv. You can install specific version of pip
+powerdns_auth_proxy_venv_pip_version: 22.3
+
+# PDNS API connection params
+powerdns_auth_proxy_api_params:
+  api-key: 7128ae9eb680a14390ee22a988a9d01a
+  api-url: http://127.0.0.1:8081/api/v1/servers/localhost
+  override-soa_edit_api: INCEPTION-INCREMENT
+  override-nameservers: ns1.home.lab. ns2.home.lab.
+  override-kind: Master
+
+# This user will be able to create a zone called "demo.home.lab." if it doesn't already exist, and
+# then modify the records in that zone only.
+powerdns_auth_proxy_users:
+  - name: demo-home-lab
+    # Make sure keys are generated using "dd if=/dev/urandom bs=1 count=16 | xxd -ps"
+    key: 4ed587c8683c5321feafbaa0ab62af62
+    allow_suffix_creation: demo.home.lab.
