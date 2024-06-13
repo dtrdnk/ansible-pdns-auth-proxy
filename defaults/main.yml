@@ -33,3 +33,7 @@ powerdns_auth_proxy_users:
     # Make sure keys are generated using "dd if=/dev/urandom bs=1 count=16 | xxd -ps"
     key: 4ed587c8683c5321feafbaa0ab62af62
     allow_suffix_creation: demo.home.lab.
+
+# systemd params ExecStart
+powerdns_auth_proxy_systemd_service_exec_start: >
+  {{ powerdns_auth_proxy_venv_path }}/bin/waitress-serve --listen=127.0.0.1:8000 --call 'powerdns_auth_proxy:create_app'

@@ -1,5 +1,13 @@
 ---
-- meta: flush_handlers
+- name: Add systemd service
+  ansible.builtin.template:
+    dest: "{{ powerdns_auth_proxy_service_path }}/{{ powerdns_auth_proxy_name }}.service"
+    group: 'root'
+    owner: 'root'
+    src: "powerdns-auth-proxy.service.j2"
+  notify:
+    - 'reload systemd'
+    - "restart {{ powerdns_auth_proxy_name }}.service"
 
 - name: "Ensure {{ powerdns_auth_proxy_name }} is {{ powerdns_auth_proxy_service_state }}"
   ansible.builtin.systemd:

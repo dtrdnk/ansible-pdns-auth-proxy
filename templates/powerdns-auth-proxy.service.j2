@@ -7,9 +7,8 @@ PIDFile=/run/powerdns-auth-proxy/pid
 User={{ powerdns_auth_proxy_user }}
 Group={{ powerdns_auth_proxy_group }}
 WorkingDirectory={{ powerdns_auth_proxy_version_path }}
-ExecStart={{ powerdns_auth_proxy_venv_path }}/bin/waitress-serve --listen=127.0.0.1:8000 --call 'powerdns_auth_proxy:create_app'
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s TERM $MAINPID
+ExecStart={{ powerdns_auth_proxy_systemd_service_exec_start }}
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

@@ -13,3 +13,4 @@
     owner: "{{ powerdns_auth_proxy_user }}"
     group: "{{ powerdns_auth_proxy_group }}"
     mode: '660'
+  notify: "restart {{ powerdns_auth_proxy_name }}.service"
